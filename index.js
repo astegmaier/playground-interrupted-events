@@ -9,7 +9,8 @@ document.getElementById("1-normal-page-hide").onclick = async () => {
 document.getElementById("2-interrupted-page-hide").onclick = async () => {
   runScenario("pagehide", ({ container, iframe }) => () => {
     console.log("event listener 1 fired");
-    // Modifying the DOM in the first listener will cause the second listener to not fire.
+    // Modifying the DOM in the first listener will cause the second listener to not fire in chromium and edge.
+    // The second listener _will_ fire in firefox, however.
     container.removeChild(iframe); 
   });
 };
