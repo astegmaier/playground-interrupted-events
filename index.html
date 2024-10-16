@@ -24,11 +24,13 @@
       Interrupted Events Playground
     </h1>
     <p>
-      This project demonstrates browser behavior where handlers for certain browser events, such as <code>pagehide</code> can be interrupted (i.e. the handlers never called) if a previous handler modifies the DOM. 
+      This project demonstrates browser behavior where handlers for certain browser events, such as <code>pagehide</code> and <code>unload</code> can be interrupted (i.e. the handlers never called) if a previous handler modifies the DOM. 
     </p>
     <ol>
-      <li><button id="1-normal-page-hide">Normal pagehide Event</button></li>
-      <li><button id="2-interrupted-page-hide">Interrupted pagehide Event</button></li>
+      <li><button id="1-normal-page-hide">Normal <code>pagehide</code> Event</button></li>
+      <li><button id="2-interrupted-page-hide">Interrupted <code>pagehide</code> Event</button></li>
+      <li><button id="3-normal-unload">Normal <code>unload</code> Event</button></li>
+      <li><button id="4-interrupted-unload">Interrupted <code>unload</code> Event</button></li>
     </ol>
     </div>
     <hr />
