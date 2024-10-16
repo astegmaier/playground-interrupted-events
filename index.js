@@ -1,19 +1,20 @@
-document.getElementById("1-interrupted-page-hide").onclick = async () => {
-  const { mainContainer, container, iframe } = setupIframe();
-
-  // Set up two listeners on the iframe
-  iframe.contentWindow.addEventListener("pagehide", () => {
+document.getElementById("1-normal-page-hide").onclick = async () => {
+  runScenario("pagehide", () => () => {
     console.log("event listener 1 fired");
-    container.removeChild(iframe); // Modifying the DOM in the first listener will cause the second listener to not fire.
+    // In a normal case, both listeners will fire.
   });
-  iframe.contentWindow.addEventListener("pagehide", () => {
-    console.log("event listener 2 fired");
-  });
-
-  mainContainer.removeChild(container);
 };
 
-function setupIframe() {
+
+document.getElementById("2-interrupted-page-hide").onclick = async () => {
+  runScenario("pagehide", ({ container, iframe }) => () => {
+    console.log("event listener 1 fired");
+    // Modifying the DOM in the first listener will cause the second listener to not fire.
+    container.removeChild(iframe); 
+  });
+};
+
+function runScenario(event, getFirstListener) {
   const mainContainer = document.getElementById("container");
 
   const container = document.createElement("div");
@@ -22,5 +23,11 @@ function setupIframe() {
   const iframe = document.createElement("iframe");
   container.appendChild(iframe);
 
-  return { mainContainer, container, iframe };
+  iframe.contentWindow.addEventListener(event, getFirstListener({ container, iframe }));
+  iframe.contentWindow.addEventListener(event, () => {
+    // Depending on what the first listener does, this may or may not fire.
+    console.log("event listener 2 fired");
+  });
+
+  mainContainer.removeChild(container);
 }
