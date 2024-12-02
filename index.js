@@ -31,6 +31,14 @@ document.getElementById("4-interrupted-unload").onclick = () => {
   });
 };
 
+document.getElementById("5-pagehide-on-timeout").onclick = () => {
+  runScenario("pagehide", ({ container, iframe }) => () => {
+    console.log("event listener 1 fired");
+    // Modifying the DOM on a timeout will fix the problem and allow the second event to run.
+    setTimeout(() => container.removeChild(iframe), 0); 
+  });
+};
+
 function runScenario(event, getFirstListener) {
   const mainContainer = document.getElementById("container");
 
